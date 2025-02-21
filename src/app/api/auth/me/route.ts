@@ -32,10 +32,7 @@ export async function GET(request: Request) {
       );
     }
 
-    // Remove password from response
-    const { password: _password, ...userWithoutPassword } = user;
-
-    return NextResponse.json(userWithoutPassword);
+    return NextResponse.json(user);
   } catch (_error) {
     console.error('Auth error:', _error);
     return NextResponse.json(
