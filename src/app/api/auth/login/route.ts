@@ -3,25 +3,39 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { prisma } from '@/lib/db';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';  // Use .env in production!
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET is not defined in environment variables');
+}
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    // Get credentials from request body
+    const { email, password: rawPassword } = await request.json();
 
-    // Validation
-    if (!email || !password) {
+    // Validate input
+    if (!email || !rawPassword) {
       return NextResponse.json(
         { message: 'Email and password are required' },
         { status: 400 }
       );
     }
 
-    // Find user
+    // Find user by email
     const user = await prisma.user.findUnique({
       where: { email },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        password: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
 
+    // Check if user exists
     if (!user) {
       return NextResponse.json(
         { message: 'Invalid credentials' },
@@ -30,7 +44,7 @@ export async function POST(request: Request) {
     }
 
     // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await bcrypt.compare(rawPassword, user.password);
 
     if (!isValidPassword) {
       return NextResponse.json(
@@ -41,21 +55,24 @@ export async function POST(request: Request) {
 
     // Generate tokens
     const accessToken = jwt.sign(
-      { userId: user.id, email: user.email },
-      JWT_SECRET,
+      { 
+        userId: user.id,
+        email: user.email 
+      },
+      JWT_SECRET!,
       { expiresIn: '15m' }
     );
 
     const refreshToken = jwt.sign(
       { userId: user.id },
-      JWT_SECRET,
+      JWT_SECRET!,
       { expiresIn: '7d' }
     );
 
-    // Remove password from response
-    const { password: _, ...userWithoutPassword } = user;
+    // Remove password from user object
+    const { password: _password, ...userWithoutPassword } = user;
 
-    // Set refresh token in HTTP-only cookie
+    // Create response
     const response = NextResponse.json(
       {
         message: 'Login successful',
@@ -65,6 +82,7 @@ export async function POST(request: Request) {
       { status: 200 }
     );
 
+    // Set refresh token in HTTP-only cookie
     response.cookies.set('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

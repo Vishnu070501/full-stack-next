@@ -30,7 +30,7 @@ export default function Login() {
         // Redirect to dashboard or home
         router.push('/dashboard');
       }
-    } catch (err) {
+    } catch (_error) {
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
@@ -96,7 +96,7 @@ export default function Login() {
         </form>
         <div className="text-center">
           <Link href="/signup" className="text-blue-600 hover:text-blue-500">
-            Don't have an account? Sign up
+            Don&apos;t have an account? Sign up
           </Link>
         </div>
       </div>

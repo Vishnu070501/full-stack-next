@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
-    "@types/jsonwebtoken": "^9.0.8",
+    "@reduxjs/toolkit": "^2.5.1",
+    "@types/redux-logger": "^3.0.13",
     "axios": "^1.7.9",
     "bcryptjs": "^3.0.2",
     "jsonwebtoken": "^9.0.2",
@@ -18,11 +19,14 @@
     "next-auth": "^4.24.11",
     "prisma": "^6.4.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
+    "redux-logger": "^3.0.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
