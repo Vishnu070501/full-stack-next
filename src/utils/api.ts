@@ -88,7 +88,7 @@ api.interceptors.response.use(
       // Clear tokens and redirect to login
       localStorage.removeItem('accessToken');
       if (typeof window !== 'undefined') {
-        window.location.href = '/login';
+        window.location.href = '/';
       }
       
       return Promise.reject(refreshError);
