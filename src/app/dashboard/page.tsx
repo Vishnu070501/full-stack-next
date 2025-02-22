@@ -7,11 +7,11 @@ import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
 import TaskModal from "@/components/TaskModal";
 import { Switch } from "@headlessui/react";
+import { useAppSelector } from "@/redux/hooks/hooks";
 
 export default function Dashboard() {
   const queryClient = useQueryClient();
-
-  // Define Task type
+  const username = useAppSelector((state) => state?.user?.user?.name) || "User";
   type Task = {
     id: string;
     title: string;
@@ -106,7 +106,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl w-full space-y-8">
-        <h2 className="text-center text-3xl font-extrabold text-gray-900">Task Dashboard</h2>
+        <h2 className="text-center text-3xl font-extrabold text-gray-900">{username}&apos;s Dashboard</h2>
         <div className="flex justify-between items-center">
           <h2 className="text-3xl font-extrabold text-gray-900">Task Dashboard</h2>
           <LogoutButton />

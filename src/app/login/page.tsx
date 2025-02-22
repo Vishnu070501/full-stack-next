@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authService } from '@/services/auth.service';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { useAppDispatch } from '@/redux/hooks/hooks';
+import { setUser } from '@/redux/features/userSlice';
 
 export default function Login() {
   const router = useRouter();
@@ -15,6 +17,8 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useAppDispatch(); // Get Redux dispatch function
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +32,10 @@ export default function Login() {
         setError(response.error);
       } else if (response.data) {
         localStorage.setItem('accessToken', response.data.accessToken);
+        // Dispatch user data to Redux
+        dispatch(setUser(response.data.user));
+
+        // Redirect to dashboard
         router.push('/dashboard');
       }
     } catch (error) {
