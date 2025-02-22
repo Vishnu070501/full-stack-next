@@ -7,7 +7,7 @@ export default function Home() {
       <header className="bg-white shadow-md p-4">
         <nav className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-800">Task Manager</h1>
-          <div className="flex gap-4">
+          {/* <div className="flex gap-4">
             <Link href="/login">
               <button className="px-5 py-2 text-gray-700 font-medium rounded-md transition duration-200 hover:bg-gray-200">
                 Sign In
@@ -18,7 +18,7 @@ export default function Home() {
                 Sign Up
               </button>
             </Link>
-          </div>
+          </div> */}
         </nav>
       </header>
 
