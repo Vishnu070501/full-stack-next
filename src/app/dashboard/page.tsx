@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import taskService from "@/services/task.service";
-import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
 import TaskModal from "@/components/TaskModal";
 import { Switch } from "@headlessui/react";
