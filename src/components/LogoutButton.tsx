@@ -10,7 +10,7 @@ export default function LogoutButton() {
   const mutation = useMutation({
     mutationFn: () => authService.logout(),
     onSuccess: () => {
-      router.push("/login"); // Redirect to login page after logout
+      router.push("/"); // Redirect to login page after logout
     },
     onError: (error) => {
       console.error("Logout failed:", error);
